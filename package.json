@@ -1,14 +1,21 @@
 {
   "name": "offline-translator-desk",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A private local translation desk powered by QVAC.",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "test:qvac": "node test-qvac.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "qvac",
+    "local-ai",
+    "translation",
+    "privacy",
+    "offline"
+  ],
+  "author": "actsy23-hub",
+  "license": "MIT",
   "type": "commonjs",
   "dependencies": {
     "@qvac/sdk": "^0.19.1"
