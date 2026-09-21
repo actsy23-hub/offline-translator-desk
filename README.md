@@ -33,7 +33,7 @@
 | Technology | Purpose |
 |---|---|
 | **Node.js** | Local application server |
-| **JavaScript** | Application logic |
+| **JavaScript** | Application logic |`r`n| **QVAC SDK** | `@qvac/sdk` 0.19.1 |
 | **HTML / CSS** | Web interface |
 | **QVAC SDK** | Translation runtime integration |
 | **Bergamot** | Translation model |
