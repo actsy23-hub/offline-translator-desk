@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline Translator Desk</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+
+    header {
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+    }
+
+    .privacy {
+      background: #e8f5e9;
+      border: 1px solid #b7dfba;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .privacy strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .receipt {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .language {
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 260px;
+      resize: vertical;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 16px;
+      font-family: inherit;
+    }
+
+    textarea:focus {
+      outline: 2px solid #9ca3af;
+    }
+
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 11px 18px;
+      cursor: pointer;
+      font-size: 14px;
+      background: #e5e7eb;
+    }
+
+    button:hover {
+      background: #d1d5db;
+    }
+
+    .translate {
+      background: #111827;
+      color: white;
+    }
+
+    .translate:hover {
+      background: #374151;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f3f4f6;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        margin: 20px auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <header>
+      <h1>Offline Translator Desk</h1>
+      <div class="subtitle">
+        Private translation powered by QVAC running locally on your device.
+      </div>
+    </header>
+
+    <section class="privacy">
+      <strong>🔒 Privacy Receipt</strong>
+
+      <div class="receipt">
+        <span>AI processing: <b>On device</b></span>
+        <span>Cloud AI requests: <b>0</b></span>
+        <span>API key: <b>None</b></span>
+        <span>Engine: <b>QVAC / Bergamot</b></span>
+      </div>
+    </section>
+
+    <section class="workspace">
+
+      <div class="panel">
+        <div class="language">English</div>
+
+        <textarea
+          id="sourceText"
+          placeholder="Enter English text..."
+        ></textarea>
+
+        <div class="controls">
+          <button class="translate" onclick="translateText()">
+            Translate
+          </button>
+
+          <button onclick="clearText()">
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="language">Spanish</div>
+
+        <textarea
+          id="resultText"
+          placeholder="Translation will appear here..."
+          readonly
+        ></textarea>
+
+        <div class="controls">
+          <button onclick="copyTranslation()">
+            Copy
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="status" id="status">
+      ● Local QVAC translator ready
+    </div>
+
+  </main>
+
+  <script>
+    async function translateText() {
+      const sourceText =
+        document.getElementById("sourceText").value.trim();
+
+      const resultText =
+        document.getElementById("resultText");
+
+      const status =
+        document.getElementById("status");
+
+      if (!sourceText) {
+        status.textContent = "Please enter text to translate.";
+        return;
+      }
+
+      status.textContent = "● Translating locally with QVAC...";
+      resultText.value = "";
+
+      try {
+        const response = await fetch("/translate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            text: sourceText
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Translation failed.");
+        }
+
+        resultText.value = data.translation;
+
+        status.textContent =
+          "● Translation complete — processed locally with QVAC.";
+      } catch (error) {
+        status.textContent =
+          "● Error: " + error.message;
+      }
+    }
+
+    function clearText() {
+      document.getElementById("sourceText").value = "";
+      document.getElementById("resultText").value = "";
+      document.getElementById("status").textContent =
+        "● Local QVAC translator ready";
+    }
+
+    async function copyTranslation() {
+      const result =
+        document.getElementById("resultText").value;
+
+      if (!result) {
+        return;
+      }
+
+      await navigator.clipboard.writeText(result);
+
+      document.getElementById("status").textContent =
+        "● Translation copied to clipboard.";
+    }
+  </script>
+
+</body>
+</html>
