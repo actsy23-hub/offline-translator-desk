@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test:qvac": "node test-qvac.js"
+    "test:qvac": "node test-qvac.js",
+    "cli": "node cli.js"
   },
   "keywords": [
     "qvac",
