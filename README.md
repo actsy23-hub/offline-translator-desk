@@ -1,96 +1,52 @@
-\# Offline Translator Desk
+# Offline Translator Desk
 
+A private local translation app powered by the QVAC SDK.
 
+Offline Translator Desk translates English text to Spanish using a QVAC-managed Bergamot translation model. Translation inference runs locally through QVAC without requiring a cloud AI inference API.
 
-A private, local translation app powered by the \*\*QVAC SDK\*\*.
+## Links
 
+- GitHub Repository: https://github.com/actsy23-hub/offline-translator-desk
+- Local App: http://localhost:3000
 
+## Features
 
-Offline Translator Desk translates English text to Spanish using a QVAC-managed translation model running locally on the user's device. The app does not send translation requests to a cloud AI inference service.
+- English to Spanish translation
+- QVAC local AI inference
+- No AI API key required
+- No cloud AI inference for translation
+- Privacy Receipt showing the AI processing path
+- Copy translated text
+- Clear the workspace
+- Simple browser-based interface
+- Local Node.js server
 
+## Privacy Receipt
 
+The application displays:
 
-\## Links
+| Property | Status |
+| --- | --- |
+| AI processing | On device |
+| Cloud AI inference | 0 |
+| AI API key | None |
+| Translation engine | QVAC / Bergamot |
 
+Translation requests are handled by the local application and processed through QVAC.
 
-
-\- \*\*GitHub Repository:\*\* https://github.com/actsy23-hub/offline-translator-desk
-
-\- \*\*Local App:\*\* http://localhost:3000
-
-
-
-> The app currently runs locally on the user's device. No public cloud deployment is required for the application to function.
-
-
-
-\## Features
-
-
-
-\- English → Spanish translation
-
-\- Local QVAC inference
-
-\- No AI API key required
-
-\- No cloud AI inference
-
-\- Privacy Receipt showing local processing status
-
-\- Copy translation to clipboard
-
-\- Clear translation workspace
-
-\- Simple browser-based interface
-
-\- QVAC model downloaded and managed locally
-
-
-
-\## Privacy Receipt
-
-
-
-The application makes the processing path visible:
-
-
-
-\- \*\*AI processing:\*\* On device
-
-\- \*\*Cloud AI requests:\*\* 0
-
-\- \*\*API key:\*\* None
-
-\- \*\*Engine:\*\* QVAC / Bergamot
-
-
-
-The translation request is processed through QVAC on the local machine.
-
-
-
-\## How It Works
-
-
+## How It Works
 
 ```text
-
 Browser
-
-&#x20;  ↓
-
-Local Node.js server
-
-&#x20;  ↓
-
+  |
+  v
+Local Node.js Server
+  |
+  v
 QVAC SDK
-
-&#x20;  ↓
-
-Bergamot translation model
-
-&#x20;  ↓
-
-Spanish translation
-
+  |
+  v
+Bergamot Translation Model
+  |
+  v
+Spanish Translation
